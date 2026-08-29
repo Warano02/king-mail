@@ -43,7 +43,7 @@ function Header() {
 
         <Link
           href="/auth"
-          className="group hidden items-center gap-2 rounded-xl bg-gray-950 px-4 py-2.5 text-sm font-medium text-white transition-all duration-300 hover:bg-gray-800 md:flex"
+          className="group hidden items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-medium text-white transition-all duration-300 hover:bg-indigo-600 md:flex"
         >
           Log In
           <ArrowUpRight
