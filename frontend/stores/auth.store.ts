@@ -7,7 +7,7 @@ interface IUser {
   avatar: string
 }
 type TLogin = { email: string; password: string }
-type TLoginResponse = { message: string }
+type TLoginResponse = { message: string ,error:boolean}
 
 interface IAuth {
   loading: boolean
@@ -16,7 +16,7 @@ interface IAuth {
 }
 
 const useAuthStore = create<IAuth>((set) => ({
-  loading: false,
+  loading: true,
   user: {
     name: "Name",
     email: "exemple@mail.km",
@@ -26,9 +26,9 @@ const useAuthStore = create<IAuth>((set) => ({
     try {
       set({ loading: true })
       await sleep(9000)
-      return { message: "Login successfully !" }
+      return { message: "Login successfully !" ,error:false}
     } catch (e) {
-      return { message: "" }
+      return { message: "" ,error:true}
     } finally {
       set({ loading: false })
     }
