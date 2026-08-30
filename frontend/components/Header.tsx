@@ -28,7 +28,7 @@ function Header() {
     <header className="fixed top-0 z-50 w-full px-4 pt-4 md:px-8 lg:px-12">
       <nav className="relative mx-auto flex max-w-7xl items-center justify-between rounded-2xl border border-black/5 bg-white/85 px-5 py-3 shadow-sm backdrop-blur-xl md:px-6">
         <Link href="/" className="shrink-0">
-          <Image src="/logo.png" alt="Logo" width={157} height={40} className="h-9 w-auto object-contain" />
+          <Image src="/logo.png" alt="Logo" width={157} height={70} className=" object-contain" />
         </Link>
 
         <div className="hidden items-center gap-1 md:flex">
@@ -56,12 +56,12 @@ function Header() {
 
         <Drawer open={open} onOpenChange={setOpen}>
           <DrawerTrigger >
-            <button
+            <span
               className="flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 text-gray-700 transition hover:bg-gray-100 md:hidden"
               aria-label="Open navigation menu"
             >
               <Menu size={20} />
-            </button>
+            </span>
           </DrawerTrigger>
 
           <DrawerContent className="px-5 pb-8 md:hidden">

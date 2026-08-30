@@ -9,9 +9,6 @@ function Signup() {
     return (
         <div className="flex h-screen w-full">
             <SignupForm />
-            <div className="w-full hidden md:inline-block">
-                <img className="h-full" src="/leftSideImage.png" alt="leftSideImage" />
-            </div>
         </div>
     )
 }
