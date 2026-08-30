@@ -73,7 +73,7 @@ ${html}
       onOpenChange={onOpenChange}
       swipeDirection="left"
     >
-      <DrawerContent className="flex h-full w-full max-w-5xl flex-col rounded-none">
+      <DrawerContent className="flex h-full w-full max-w-5xl flex-col rounded-none pt-26">
         <DrawerHeader className="shrink-0 border-b px-5 py-4">
           <div className="flex items-center justify-between">
             <DrawerTitle className="text-base font-semibold">

@@ -11,10 +11,12 @@ import {
   DrawerTitle,
   DrawerTrigger
 } from "@/components/ui/drawer"
+import { usePathname } from "next/navigation"
 
 function Header() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const pathname = usePathname()
 
   const links = [
     { label: "Home", href: "/" },
@@ -38,6 +40,7 @@ function Header() {
       window.removeEventListener("scroll", handleScroll)
     }
   }, [])
+  if ((["/features", "/pricing", "/about", "/contact"].includes(pathname) && !scrolled) || pathname.includes("/email")) return null
 
   return (
     <header className="fixed top-0 z-50 w-full px-4 pt-4 md:px-8 lg:px-12">

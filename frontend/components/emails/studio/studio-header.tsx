@@ -29,7 +29,7 @@ export function StudioHeader({
   livePreview,
   onDeviceChange,
   onModeChange,
-  onLivePreviewChange,onPreview
+  onLivePreviewChange, onPreview
 }: StudioHeaderProps) {
   const devices = [
     {
@@ -50,9 +50,9 @@ export function StudioHeader({
   ]
 
   return (
-    <header className="relative flex h-14 shrink-0 items-center justify-between border-b bg-white px-4">
+    <header className="fixed top-0 z-10000 w-full flex h-24 shrink-0 items-center justify-between border-b bg-white px-4 ">
       <div className="flex items-center gap-3">
-        <button className="flex items-center gap-2 text-sm text-gray-700 transition hover:text-gray-950">
+        <button className="cursor-pointer flex items-center gap-2 text-sm text-gray-700 transition hover:text-gray-950">
           <ArrowLeft size={18} />
           Templates
         </button>
@@ -73,11 +73,10 @@ export function StudioHeader({
               <button
                 key={id}
                 onClick={() => onDeviceChange(id)}
-                className={`flex items-center gap-2 rounded-md px-3 py-1.5 text-xs font-medium transition ${
-                  active
-                    ? "bg-white text-gray-900 shadow-sm"
-                    : "text-gray-500 hover:text-gray-900"
-                }`}
+                className={`flex items-center gap-2 rounded-md px-3 py-1.5 text-xs font-medium transition ${active
+                  ? "bg-white text-gray-900 shadow-sm"
+                  : "text-gray-500 hover:text-gray-900"
+                  }`}
               >
                 <Icon size={15} />
                 {label}
@@ -91,22 +90,20 @@ export function StudioHeader({
         <div className="absolute left-1/2 flex -translate-x-1/2 items-center rounded-lg border bg-gray-50 p-1">
           <button
             onClick={() => onLivePreviewChange(false)}
-            className={`rounded-md px-3 py-1.5 text-xs font-medium transition ${
-              !livePreview
-                ? "bg-white text-gray-900 shadow-sm"
-                : "text-gray-500 hover:text-gray-900"
-            }`}
+            className={`rounded-md px-3 py-1.5 text-xs font-medium transition cursor-pointer ${!livePreview
+              ? "bg-white text-gray-900 shadow-sm"
+              : "text-gray-500 hover:text-gray-900"
+              }`}
           >
             Code
           </button>
 
           <button
             onClick={() => onLivePreviewChange(true)}
-            className={`rounded-md px-3 py-1.5 text-xs font-medium transition ${
-              livePreview
-                ? "bg-white text-gray-900 shadow-sm"
-                : "text-gray-500 hover:text-gray-900"
-            }`}
+            className={`rounded-md px-3 py-1.5 text-xs font-medium transition cursor-pointer ${livePreview
+              ? "bg-white text-gray-900 shadow-sm"
+              : "text-gray-500 hover:text-gray-900"
+              }`}
           >
             Live Preview
           </button>
@@ -118,27 +115,26 @@ export function StudioHeader({
           onClick={() =>
             onModeChange(mode === "code" ? "visual" : "code")
           }
-          className={`flex items-center gap-2 rounded-md border px-3 py-2 text-sm transition ${
-            mode === "code"
-              ? "border-gray-900 bg-gray-900 text-white"
-              : "text-gray-700 hover:bg-gray-50"
-          }`}
+          className={`flex items-center gap-2 rounded-md border px-3 py-2 text-sm transition cursor-pointer ${mode === "code"
+            ? "border-gray-900 bg-gray-900 text-white"
+            : "text-gray-700 hover:bg-gray-50"
+            }`}
         >
           <Code2 size={16} />
           {mode === "code" ? "Visual" : "Code"}
         </button>
 
-        <button onClick={onPreview} className="flex items-center gap-2 rounded-md border px-3 py-2 text-sm text-gray-700 transition hover:bg-gray-50">
+        <button onClick={onPreview} className="cursor-pointer flex items-center gap-2 rounded-md border px-3 py-2 text-sm text-gray-700 transition hover:bg-gray-50">
           <Eye size={16} />
           Preview
         </button>
 
-        <button className="flex items-center gap-2 rounded-md border px-3 py-2 text-sm text-gray-700 transition hover:bg-gray-50">
+        <button className="cursor-pointer flex items-center gap-2 rounded-md border px-3 py-2 text-sm text-gray-700 transition hover:bg-gray-50">
           <Save size={16} />
           Save
         </button>
 
-        <button className="flex items-center gap-2 rounded-md bg-black px-3 py-2 text-sm text-white transition hover:bg-gray-800">
+        <button className="cursor-pointer flex items-center gap-2 rounded-md bg-black px-3 py-2 text-sm text-white transition hover:bg-gray-800">
           <Send size={16} />
           Send
         </button>

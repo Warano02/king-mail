@@ -20,6 +20,7 @@ import "./studio/studio.css"
 import { StudioHeader } from "./studio/studio-header"
 import { PreviewDrawer } from "./studio/preview-drawer"
 import { template } from "./studio/mock-template"
+import { buildCombinedCode } from "./studio/utils"
 
 type Device = "desktop" | "tablet" | "mobile"
 type Mode = "visual" | "code"
@@ -109,21 +110,7 @@ export default function EmailStudio() {
     })
   }
 
-  const buildCombinedCode = (html: string, css: string) => {
-    return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-${css}
-  </style>
-</head>
-<body>
-${html}
-</body>
-</html>`
-  }
+  
 
   const parseCombinedCode = (value: string) => {
     const parser = new DOMParser()
@@ -279,7 +266,7 @@ ${html}
         onPreview={handlePreview}
       />
 
-      <main className="relative flex min-h-0 flex-1 overflow-hidden">
+      <main className="relative flex min-h-0 flex-1 overflow-hidden mt-26">
         <section
           className={`absolute inset-0 flex min-h-0 min-w-0 overflow-hidden bg-gray-100 transition-opacity ${
             mode === "visual"

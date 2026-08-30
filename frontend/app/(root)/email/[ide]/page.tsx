@@ -1,5 +1,6 @@
 import EditStudio from "@/components/emails/edit-studio"
 import EmailCard from "@/components/emails/email-card"
+import HowItWorks from "@/components/template/how-it-work"
 import { Metadata } from "next"
 import { Suspense } from "react"
 
@@ -14,6 +15,7 @@ function SingleEmailPersonalisation() {
       <Suspense fallback={<PropositionSkeleton />}>
         <Proposition />
       </Suspense>
+      <HowItWorks />
     </main>
   )
 }
