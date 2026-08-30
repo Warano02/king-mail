@@ -6,9 +6,7 @@ function layout({ children }: { children: React.ReactNode }) {
     return (
         <>
             <Header />
-            <div className='pt-24'>
                 {children}
-            </div>
             <Footer />
         </>
     )
