@@ -12,7 +12,7 @@ function EmailCard({ className }: EMProps) {
     return (
         <article
             className={cn(
-                "group relative h-110 w-full overflow-hidden rounded-2xl border bg-muted shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl",
+                "group relative h-110 w-full max-w-75 overflow-hidden rounded-2xl border bg-muted shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl shrink-0",
                 className
             )}
         >

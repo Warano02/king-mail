@@ -1,4 +1,5 @@
 import Donate from "@/components/Donate"
+import FinalCta from "@/components/home/final-cta"
 import Hero from "@/components/home/hero"
 import HowItWorks from "@/components/home/how-it-work"
 import Newsletter from "@/components/home/newsletter"
@@ -19,6 +20,7 @@ function page() {
       <HowItWorks />
       <ResponsiveEmails/>
       <SocialProof/>
+      <FinalCta/>
       <Newsletter />
     </>
   )
