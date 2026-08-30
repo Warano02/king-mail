@@ -1,9 +1,12 @@
+import Donate from "@/components/Donate"
 import EmailCard from "@/components/emails/email-card"
 import Newsletter from "@/components/home/newsletter"
 
 function page() {
   return (
     <>
+      <Donate />
+
       <div className="bg-[url(/gradientBackground.png)] text-sm text-gray-500">
         <div className="h-screen flex flex-col items-center justify-center px-4 text-center">
           <div className="flex flex-wrap items-center justify-center gap-2.5 mb-6 border border-gray-500/30 rounded-full bg-gray-300/15 pl-4 p-1 text-sm text-gray-800 max-w-full">
@@ -42,7 +45,7 @@ function page() {
         }
       </div>
 
-      <Newsletter/>
+      <Newsletter />
     </>
   )
 }

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 }
 function SingleEmailPersonalisation() {
   return (
-    <main className="max-w-7xl mx-auto px-2">
+    <main className="max-w-7xl mx-auto px-2 space-y-16">
       <EditStudio />
 
       <Suspense fallback={<PropositionSkeleton />}>
