@@ -1,7 +1,14 @@
+import PricingCTA from "@/components/pricing/pricing-cta"
+import PricingGrid from "@/components/pricing/pricing-grid"
+import PricingHero from "@/components/pricing/pricing-hero"
 
 function Pricing() {
   return (
-    <div>Pricing</div>
+    <>
+      <PricingHero />
+      <PricingGrid />
+      <PricingCTA/>
+    </>
   )
 }
 
