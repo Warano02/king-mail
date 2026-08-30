@@ -1,29 +1,27 @@
 "use client"
 
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
+
 import grapesjs, { type Editor } from "grapesjs"
 
 import CodeMirror from "@uiw/react-codemirror"
-
 import { html } from "@codemirror/lang-html"
 import { css } from "@codemirror/lang-css"
 
 import prettier from "prettier/standalone"
-
 import parserHtml from "prettier/plugins/html"
 import parserPostcss from "prettier/plugins/postcss"
 
 import "grapesjs/dist/css/grapes.min.css"
 import "grapesjs-preset-newsletter"
 
-import { StudioHeader } from "./studio/studio-header"
-
-import { template } from "./studio/mock-template"
-
 import "./studio/studio.css"
 
-type Device = "desktop" | "tablet" | "mobile"
+import { StudioHeader } from "./studio/studio-header"
+import { PreviewDrawer } from "./studio/preview-drawer"
+import { template } from "./studio/mock-template"
 
+type Device = "desktop" | "tablet" | "mobile"
 type Mode = "visual" | "code"
 
 export default function EmailStudio() {
@@ -31,12 +29,11 @@ export default function EmailStudio() {
   const stylesRef = useRef<HTMLDivElement>(null)
   const editorInstanceRef = useRef<Editor | null>(null)
 
+  const [previewOpen, setPreviewOpen] = useState(false)
   const [device, setDevice] = useState<Device>("desktop")
   const [mode, setMode] = useState<Mode>("visual")
-
   const [htmlCode, setHtmlCode] = useState("")
   const [cssCode, setCssCode] = useState("")
-
   const [livePreview, setLivePreview] = useState(false)
   const [combinedCode, setCombinedCode] = useState("")
 
@@ -84,7 +81,6 @@ export default function EmailStudio() {
     })
 
     editor.setDevice("desktop")
-
     editorInstanceRef.current = editor
 
     return () => {
@@ -113,14 +109,27 @@ export default function EmailStudio() {
     })
   }
 
-
+  const buildCombinedCode = (html: string, css: string) => {
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+${css}
+  </style>
+</head>
+<body>
+${html}
+</body>
+</html>`
+  }
 
   const parseCombinedCode = (value: string) => {
     const parser = new DOMParser()
     const document = parser.parseFromString(value, "text/html")
 
     const styleElement = document.querySelector("style")
-
     const extractedCss = styleElement?.textContent ?? ""
 
     styleElement?.remove()
@@ -141,7 +150,6 @@ export default function EmailStudio() {
   const changeLivePreview = async (value: boolean) => {
     if (value) {
       const code = buildCombinedCode(htmlCode, cssCode)
-
       const formattedCode = await formatHtml(code)
 
       setCombinedCode(formattedCode)
@@ -210,13 +218,54 @@ export default function EmailStudio() {
     setCombinedCode(value)
   }
 
-  const previewDocument = useMemo(() => {
-    if (livePreview) {
-      return combinedCode
+  const handlePreview = async () => {
+    const editor = editorInstanceRef.current
+
+    if (!editor) return
+
+    if (mode === "visual") {
+      const currentHtml = editor.getHtml()
+      const currentCss = editor.getCss() ?? ""
+
+      const [formattedHtml, formattedCss] = await Promise.all([
+        formatHtml(currentHtml),
+        formatCss(currentCss)
+      ])
+
+      setHtmlCode(formattedHtml)
+      setCssCode(formattedCss)
+
+      setPreviewOpen(true)
+
+      return
     }
 
-    return buildCombinedCode(htmlCode, cssCode)
-  }, [combinedCode, htmlCode, cssCode, livePreview])
+    if (livePreview) {
+      setPreviewOpen(true)
+
+      return
+    }
+
+    const [formattedHtml, formattedCss] = await Promise.all([
+      formatHtml(htmlCode),
+      formatCss(cssCode)
+    ])
+
+    setHtmlCode(formattedHtml)
+    setCssCode(formattedCss)
+
+    setPreviewOpen(true)
+  }
+
+  const previewHtml = livePreview
+    ? parseCombinedCode(combinedCode).html
+    : htmlCode
+
+  const previewCss = livePreview
+    ? parseCombinedCode(combinedCode).css
+    : cssCode
+
+  const previewDocument = buildCombinedCode(previewHtml, previewCss)
 
   return (
     <div className="flex h-screen flex-col overflow-hidden">
@@ -227,14 +276,16 @@ export default function EmailStudio() {
         onDeviceChange={changeDevice}
         onModeChange={changeMode}
         onLivePreviewChange={changeLivePreview}
+        onPreview={handlePreview}
       />
 
       <main className="relative flex min-h-0 flex-1 overflow-hidden">
         <section
-          className={`absolute inset-0 flex min-h-0 min-w-0 overflow-hidden bg-gray-100 transition-opacity ${mode === "visual"
-            ? "z-10 opacity-100"
-            : "pointer-events-none z-0 opacity-0"
-            }`}
+          className={`absolute inset-0 flex min-h-0 min-w-0 overflow-hidden bg-gray-100 transition-opacity ${
+            mode === "visual"
+              ? "z-10 opacity-100"
+              : "pointer-events-none z-0 opacity-0"
+          }`}
         >
           <section className="relative min-h-0 min-w-0 flex-1 overflow-hidden">
             <div
@@ -262,10 +313,11 @@ export default function EmailStudio() {
         </section>
 
         <section
-          className={`absolute inset-0 flex min-h-0 min-w-0 overflow-hidden bg-[#282c34] transition-opacity ${mode === "code"
-            ? "z-20 opacity-100"
-            : "pointer-events-none z-0 opacity-0"
-            }`}
+          className={`absolute inset-0 flex min-h-0 min-w-0 overflow-hidden bg-[#282c34] transition-opacity ${
+            mode === "code"
+              ? "z-20 opacity-100"
+              : "pointer-events-none z-0 opacity-0"
+          }`}
         >
           {!livePreview ? (
             <>
@@ -369,8 +421,8 @@ export default function EmailStudio() {
                   <div className="mx-auto h-full w-full max-w-4xl overflow-hidden rounded-lg bg-white shadow-sm">
                     <iframe
                       title="Email live preview"
-                      srcDoc={previewDocument}
-                      className="h-full w-full border-0"
+                      srcDoc={combinedCode}
+                      className="h-full min-h-125 w-full border-0"
                       sandbox="allow-same-origin"
                     />
                   </div>
@@ -380,22 +432,13 @@ export default function EmailStudio() {
           )}
         </section>
       </main>
+
+      <PreviewDrawer
+        open={previewOpen}
+        onOpenChange={setPreviewOpen}
+        html={previewHtml}
+        css={previewCss}
+      />
     </div>
   )
-}
-
-const buildCombinedCode = (html: string, css: string) => {
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-${css}
-  </style>
-</head>
-<body>
-${html}
-</body>
-</html>`
 }
